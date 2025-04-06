@@ -19,6 +19,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.mealz_app.ui.details.MealDetailScreen
+import com.example.mealz_app.ui.details.MealDetailsViewmodel
 import com.example.model.response.MealResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -96,37 +103,44 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Mealz_appTheme {
-                MealsCategoriesScreen()
+                //MealsCategoriesScreen()
+                FoodiezApp()
             }
         }
     }
 }
-
 @Composable
-fun MealsCategoriesScreen() {
-    val viewModel: MealsCategoriesViewModel = viewModel()
-//    val rememberedMeals: MutableState<List<MealResponse>> = remember { mutableStateOf(emptyList<MealResponse>()) }
-//   val coroutineScope = rememberCoroutineScope()
-//    LaunchedEffect("GET_MEALS") {
-//       coroutineScope.launch (Dispatchers.IO){
-//           val meals= viewModel.getMeals()
-//           rememberedMeals.value=meals
-//   }
-//
- // }
-val meals= viewModel.mealsState.value
-    LazyColumn {
-        items(meals) { meal ->
-            Text(text = meal.name)
+private fun FoodiezApp() {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "meal_categories" // Correctly used here
+    ) {
+        composable("meal_categories") {
+            MealsCategoriesScreen()
+            { navigationMealID ->
+                navController.navigate("destination_meal_detail/$navigationMealID")
+            }
+        }
+        composable(
+            route = "destination_meal_details/{meal_category_id}",
+            arguments = listOf(navArgument("meal_category_id")
+            {
+                type = NavType.StringType
+            })
+        )
+        {
+            val viewModel: MealDetailsViewmodel= viewModel()
+            MealDetailScreen(viewModel.mealState.value)
         }
     }
-
 }
+//    val navController= rememberNavController()
+//    NavHost(navController,startDestination="destination_meal_list")
+//    composable(route="")
+//    {
+//        MealsCategoriesScreen()
+//    }
+//}
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    Mealz_appTheme {
-        MealsCategoriesScreen()
-    }
-}

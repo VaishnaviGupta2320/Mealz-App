@@ -72,7 +72,9 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.retrofit) // Core Retrofit library
     implementation(libs.converter.gson) // Gson converter for Retrofit
+    implementation(libs.coil.compose)//image loading
     testImplementation(libs.junit)
+    implementation(libs.androidx.navigation.compose)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

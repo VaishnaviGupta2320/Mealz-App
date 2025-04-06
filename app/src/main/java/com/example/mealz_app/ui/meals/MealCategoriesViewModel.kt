@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+
 //import com.example.model.response.MealsResponse
 //
 //class MealCategoriesViewModel(private val repository: MealsRepository= MealsRepository()):ViewModel() {
@@ -39,7 +40,7 @@ import kotlinx.coroutines.launch
 //import com.codingtroops.model.response.MealsCategoriesResponse
 
 
-class MealsCategoriesViewModel (private val repository: MealsRepository = MealsRepository()): ViewModel() {
+class MealsCategoriesViewModel (private val repository: MealsRepository = MealsRepository.getInstance()): ViewModel() {
 //private val mealsjob= Job()
     init {
         Log.d("TAG_COROUTINE", "we are about to launch coroutine")//1
